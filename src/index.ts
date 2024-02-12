@@ -5,6 +5,7 @@ import getUserByID from "../1/getUsersByID";
 import { urlWithIdRegex } from "./utils/constants";
 import createUser from "./api/createUser";
 import updateUser from "./api/updateUser";
+import deleteUser from "./api/deleteUser";
 
 const server = createServer((req, res) => {
   console.log(req.url );
@@ -16,6 +17,8 @@ const server = createServer((req, res) => {
     createUser(req, res)
   } else if (req.url?.match(urlWithIdRegex) && req.method === 'PUT') {
     updateUser(req, res)
+  } else if (req.url?.match(urlWithIdRegex) && req.method === 'DELETE') {
+    deleteUser(req, res)
   } else {
     res.writeHead(404, {'Content-Type': 'application-json'});
     res.end(JSON.stringify({'message': 'Endpoint not found'}));

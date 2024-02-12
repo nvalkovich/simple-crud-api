@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "start": "webpack && node dist/bundle.js",
+    "start": "webpack && node dist/bundle.cjs",
     "dev": "nodemon",
     "lint": "eslint . --ext .ts"
   },
@@ -20,6 +20,7 @@
     "dotenv": "^16.4.2",
     "eslint": "^8.56.0",
     "nodemon": "^3.0.3",
+    "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
     "uuid": "^9.0.1",

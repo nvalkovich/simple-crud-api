@@ -1,7 +1,7 @@
 import "dotenv/config.js";
 import { createServer } from "http";
 import getUsers from "./api/getUsers";
-import getUserByID from "../1/getUsersByID";
+import getUserByID from "./api/getUsersById";
 import { urlWithIdRegex } from "./utils/constants";
 import createUser from "./api/createUser";
 import updateUser from "./api/updateUser";

@@ -3,6 +3,7 @@ import { createServer } from "http";
 import getUsers from "./api/getUsers";
 import getUserByID from "../1/getUsersByID";
 import { urlWithIdRegex } from "./utils/constants";
+import createUser from "./api/createUser";
 
 const server = createServer((req, res) => {
   console.log(req.url );
@@ -10,6 +11,8 @@ const server = createServer((req, res) => {
     getUsers(res);
   } else if (req.url?.match(urlWithIdRegex) && req.method === 'GET') {
     getUserByID(req, res);
+  } else if (req.url === '/users' && req.method === 'POST') {
+    createUser(req, res)
   } else {
     res.writeHead(404, {'Content-Type': 'application-json'});
     res.end(JSON.stringify({'message': 'Endpoint not found'}));

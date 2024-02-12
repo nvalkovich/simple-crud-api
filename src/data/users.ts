@@ -16,7 +16,17 @@ const users = [
     "hobbies": [
       "test3"
     ]
-  }
+  },
+  {
+    "id": "6ec99dca-9203-4392-920c-4afa7603257c",
+    "username": "Testpost3",
+    "age": "1",
+    "hobbies": [
+      "test",
+      "test2",
+      "test3"
+    ]
+  },
 ]; 
 
 export default users;

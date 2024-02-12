@@ -1,5 +1,5 @@
 import { ServerResponse } from "http";
-import users from "../storage/users";
+import users from "../data/users";
 import { returnErrorResponse } from "../utils/helpers/api";
 import { RepsonseMessages } from "../types/enums";
 

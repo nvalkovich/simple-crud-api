@@ -1,4 +1,4 @@
-
+import "dotenv/config.js";
 import { createServer } from "http";
 import { returnErrorResponse } from "../utils/helpers/api";
 import routesController from "../api/routes";

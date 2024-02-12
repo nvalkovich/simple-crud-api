@@ -7,9 +7,9 @@ export class User {
   hobbies: Array<string>;
 
   constructor({ id, username, age, hobbies, }: UserData) {
-  this.id = id;
-  this.username = username;
-  this.age = age;
-  this.hobbies = hobbies;
+    this.id = id;
+    this.username = username;
+    this.age = age;
+    this.hobbies = hobbies;
   }
 }

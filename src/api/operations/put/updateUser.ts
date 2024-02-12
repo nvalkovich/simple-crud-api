@@ -1,8 +1,7 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { updateData } from "../utils/helpers/data";
-import users from "../data/users";
-import { RepsonseMessages } from "../types/enums";
-import { getIDFromUrl, findUserByID,  returnErrorResponse } from "../utils/helpers/api";
+import users from "../../../storage/Storage";
+import { RepsonseMessages } from "../../../types/enums";
+import { getIDFromUrl,  returnErrorResponse } from "../../../utils/helpers/api";
 
 const updateUser = async (req: IncomingMessage, res: ServerResponse) => {
   try {
@@ -12,7 +11,7 @@ const updateUser = async (req: IncomingMessage, res: ServerResponse) => {
       return;
     }
 
-    const user = findUserByID(id);
+    const user = users.getByID(id);
     if (!user) {
       returnErrorResponse(res, 400, RepsonseMessages.UserNotFound);
       return;
@@ -35,11 +34,7 @@ const updateUser = async (req: IncomingMessage, res: ServerResponse) => {
         hobbies: hobbies || user.hobbies,
       };
 
-      const updatedUsers = users.map(user => {
-        return user.id === updatedUser.id ? updatedUser : user;
-      });
-
-      await updateData(updatedUsers);
+      users.updateUser(updatedUser);
 
       res.writeHead(201, {'Content-Type': 'application-json'});
       res.end(JSON.stringify(updatedUser)); 

@@ -1,8 +1,7 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { getIDFromUrl, returnErrorResponse, findUserByID } from "../utils/helpers/api";
-import { RepsonseMessages } from "../types/enums";
-import users from "../data/users";
-import { updateData } from "../utils/helpers/data";
+import { getIDFromUrl, returnErrorResponse } from "../../../utils/helpers/api";
+import { RepsonseMessages } from "../../../types/enums";
+import users from "../../../storage/Storage";
 
 const deleteUser = async (req: IncomingMessage, res: ServerResponse) =>  {
   try {
@@ -12,17 +11,15 @@ const deleteUser = async (req: IncomingMessage, res: ServerResponse) =>  {
       return;
     }
 
-    const user = findUserByID(id);
+    const user = users.getByID(id);
     if (!user) {
       returnErrorResponse(res, 400, RepsonseMessages.UserNotFound);
       return;
     }
 
-    const updatedUsers = users.filter((user) => user.id !== id);
-    await updateData(updatedUsers);
-
+    users.deleteUser(id);
     res.writeHead(200, {'Content-Type': 'application-json'});
-    res.end(JSON.stringify(updatedUsers));
+    res.end(JSON.stringify(users.get()));
   } catch {
     returnErrorResponse(res, 500, RepsonseMessages.ServerError);
   }

@@ -1,10 +1,9 @@
-import { User } from "../data/User";
+import { User } from '../../../user/User';
 import { IncomingMessage, ServerResponse } from "http";
 import { v4 as uuidv4 } from 'uuid';
-import { updateData } from "../utils/helpers/data";
-import users from "../data/users";
-import { checkRequiredFields, returnErrorResponse } from "../utils/helpers/api";
-import { RepsonseMessages } from "../types/enums";
+import users from "../../../storage/Storage";
+import { checkRequiredFields, returnErrorResponse } from "../../../utils/helpers/api";
+import { RepsonseMessages } from "../../../types/enums";
 
 const createUser = async (req: IncomingMessage, res: ServerResponse) => {
   try {
@@ -32,11 +31,10 @@ const createUser = async (req: IncomingMessage, res: ServerResponse) => {
         hobbies
       });
 
-      users.push(newUser);
-      await updateData();
+      users.setNewUser(newUser);
 
       res.writeHead(201, {'Content-Type': 'application-json'});
-      res.end(JSON.stringify(newUser));
+      res.end(JSON.stringify(users.get()));
     })
   } catch {
     returnErrorResponse(res, 500, RepsonseMessages.ServerError);

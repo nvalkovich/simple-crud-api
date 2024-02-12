@@ -1,6 +1,7 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { getIDFromUrl, returnErrorResponse, findUserByID } from "../utils/helpers/api";
-import { RepsonseMessages } from "../types/enums";
+import { getIDFromUrl, returnErrorResponse } from "../../../utils/helpers/api";
+import { RepsonseMessages } from "../../../types/enums";
+import users from "../../../storage/Storage";
 
 const getUserByID = async (req: IncomingMessage, res: ServerResponse) =>  {
   try {
@@ -10,7 +11,7 @@ const getUserByID = async (req: IncomingMessage, res: ServerResponse) =>  {
       return;
     }
 
-    const user = findUserByID(id);
+    const user = users.getByID(id);
     if (!user) {
       returnErrorResponse(res, 400, RepsonseMessages.UserNotFound);
       return;

@@ -6,7 +6,7 @@
   "scripts": {
     "start:prod": "webpack && node dist/bundle.cjs",
     "start:dev": "nodemon",
-    "test": "jest --detectOpenHandles"
+    "test": "jest"
   },
   "type": "module",
   "author": "",

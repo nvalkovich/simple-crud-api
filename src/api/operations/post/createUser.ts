@@ -14,7 +14,15 @@ const createUser = async (req: IncomingMessage, res: ServerResponse) => {
     })
 
     req.on('end', async () => {
-      const parsedBody = JSON.parse(body);
+      let parsedBody;
+
+      try {
+        parsedBody = JSON.parse(body);
+      } catch (e) {
+        returnErrorResponse(res, 400, ResponseMessages.InvalidBody);
+        return;
+      }
+    
       const allRequiredExist = checkRequiredFields(parsedBody);
 
       if (!allRequiredExist) {
@@ -22,7 +30,13 @@ const createUser = async (req: IncomingMessage, res: ServerResponse) => {
         return;
       }
 
-      const { username, age, hobbies } = parsedBody;
+      const { username, age, hobbies, ...rest } = parsedBody;
+
+      if (Object.keys(rest).length) {
+        console.log(Object.keys(rest));
+        returnErrorResponse(res, 400, ResponseMessages.InvalidBodyFields);
+        return;
+      }
 
       const newUser = new User({
         id: uuidv4(),

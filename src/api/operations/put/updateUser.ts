@@ -25,8 +25,21 @@ const updateUser = async (req: IncomingMessage, res: ServerResponse) => {
     })
 
     req.on('end', async () => {
-      const parsedBody = JSON.parse(body);
-      const {username, age, hobbies } = parsedBody;
+      let parsedBody;
+
+      try {
+        parsedBody = JSON.parse(body);
+      } catch (e) {
+        returnErrorResponse(res, 400, ResponseMessages.InvalidBody);
+        return;
+      }
+      
+      const {username, age, hobbies, ...rest} = parsedBody;
+
+      if (Object.keys(rest)) {
+        returnErrorResponse(res, 400, ResponseMessages.InvalidBodyFields);
+        return;
+      }
 
       const updatedUser = new User({
         id,

@@ -11,5 +11,5 @@ export const checkRequiredFields = (data: {[key: string]: string}) => {
 
 export const returnErrorResponse = (res: ServerResponse, statusCode: number, message: string) => {
   res.writeHead(statusCode, {'Content-Type': 'application-json'});
-  res.end(JSON.stringify({'message': `${message}`}));
+  res.end(JSON.stringify({'status-code': statusCode, 'message': `${message}`}));
 }

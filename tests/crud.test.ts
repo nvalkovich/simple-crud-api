@@ -8,9 +8,9 @@ import { v4 as uuidv4 } from 'uuid';
 const request = supertest(app.createServer());
 
 const newUserData = {
-  username: 'NewUserName',
-  age: '10',
-  hobbies: ['hobby1', 'hobby2'],
+  "username": "NewUserName",
+  "age": "10",
+  "hobbies": ["hobby1", "hobby2"]
 };
 
 describe('Scenarios', () => {
@@ -149,8 +149,8 @@ describe('Scenarios', () => {
 
     //Try to update user with a PUT api/users/{invalidUserID} request. An "Invalid ID" error is expected.
     const updateData = {
-      username: 'TestNameUpdated',
-    };
+      "username": "TestNameUpdated"
+    }
 
     const updateByInvalidIDResponse = await request.put(`/api/users/${createdUserID.slice(2)}`).send(updateData);
     
@@ -165,7 +165,7 @@ describe('Scenarios', () => {
   
     //Update user with a PUT api/users/{userID} request. An "User not found" error is expected.
     const updatedUserResponse = await request.put(`/api/users/${createdUserID}`).send(updateData);
-  
+
     expect(updatedUserResponse.status).toBe(200);
     expect(JSON.parse(updatedUserResponse.text).username).toBe(updateData.username);
     expect(JSON.parse(updatedUserResponse.text).id).toBe(createdUserID);

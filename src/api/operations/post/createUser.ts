@@ -18,22 +18,27 @@ const createUser = async (req: IncomingMessage, res: ServerResponse) => {
 
       try {
         parsedBody = JSON.parse(body);
-      } catch (e) {
+
+        const allRequiredExist = checkRequiredFields(parsedBody);
+
+        if (!allRequiredExist) {
+          returnErrorResponse(res, 400, ResponseMessages.BodyNotContainRequiredFields);
+          return;
+        }
+
+        if (typeof JSON.parse(parsedBody.age) !== 'number' || !Array.isArray(parsedBody.hobbies)) {
+          returnErrorResponse(res, 400, ResponseMessages.InvalidBodyTypes);
+          return;
+        }
+      } catch {
         returnErrorResponse(res, 400, ResponseMessages.InvalidBody);
         return;
       }
-    
-      const allRequiredExist = checkRequiredFields(parsedBody);
 
-      if (!allRequiredExist) {
-        returnErrorResponse(res, 400, ResponseMessages.BodyNotContainRequiredFields);
-        return;
-      }
 
       const { username, age, hobbies, ...rest } = parsedBody;
 
       if (Object.keys(rest).length) {
-        console.log(Object.keys(rest));
         returnErrorResponse(res, 400, ResponseMessages.InvalidBodyFields);
         return;
       }
@@ -47,13 +52,13 @@ const createUser = async (req: IncomingMessage, res: ServerResponse) => {
 
       users.setNewUser(newUser);
 
-      res.writeHead(201, {'Content-Type': 'application-json'});
+      res.writeHead(201, { 'Content-Type': 'application-json' });
       res.end(JSON.stringify(newUser));
     })
   } catch {
     returnErrorResponse(res, 500, ResponseMessages.ServerError);
   }
-  
+
 }
 
 export default createUser;

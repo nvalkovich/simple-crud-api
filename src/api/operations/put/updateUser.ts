@@ -26,17 +26,24 @@ const updateUser = async (req: IncomingMessage, res: ServerResponse) => {
 
     req.on('end', async () => {
       let parsedBody;
-
+  
       try {
         parsedBody = JSON.parse(body);
-      } catch (e) {
+        if (parsedBody.age || parsedBody.hobbies) {
+          if (typeof JSON.parse(parsedBody.age) !== 'number' 
+          || !Array.isArray(parsedBody.hobbies)) {
+            returnErrorResponse(res, 400, ResponseMessages.InvalidBodyTypes);
+            return;
+          }
+        }
+      } catch {
         returnErrorResponse(res, 400, ResponseMessages.InvalidBody);
         return;
       }
       
       const {username, age, hobbies, ...rest} = parsedBody;
 
-      if (Object.keys(rest)) {
+      if (Object.keys(rest).length) {
         returnErrorResponse(res, 400, ResponseMessages.InvalidBodyFields);
         return;
       }

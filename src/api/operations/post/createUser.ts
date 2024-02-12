@@ -3,7 +3,7 @@ import { IncomingMessage, ServerResponse } from "http";
 import { v4 as uuidv4 } from 'uuid';
 import users from "../../../storage/Storage";
 import { checkRequiredFields, returnErrorResponse } from "../../../utils/helpers/api";
-import { RepsonseMessages } from "../../../types/enums";
+import { ResponseMessages } from "../../../types/enums";
 
 const createUser = async (req: IncomingMessage, res: ServerResponse) => {
   try {
@@ -18,7 +18,7 @@ const createUser = async (req: IncomingMessage, res: ServerResponse) => {
       const allRequiredExist = checkRequiredFields(parsedBody);
 
       if (!allRequiredExist) {
-        returnErrorResponse(res, 400, RepsonseMessages.BodyNotContainRequiredFields);
+        returnErrorResponse(res, 400, ResponseMessages.BodyNotContainRequiredFields);
         return;
       }
 
@@ -34,10 +34,10 @@ const createUser = async (req: IncomingMessage, res: ServerResponse) => {
       users.setNewUser(newUser);
 
       res.writeHead(201, {'Content-Type': 'application-json'});
-      res.end(JSON.stringify(users.get()));
+      res.end(JSON.stringify(newUser));
     })
   } catch {
-    returnErrorResponse(res, 500, RepsonseMessages.ServerError);
+    returnErrorResponse(res, 500, ResponseMessages.ServerError);
   }
   
 }

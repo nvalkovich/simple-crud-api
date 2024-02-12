@@ -1,5 +1,4 @@
 import { UserData } from "../types/interfaces";
-import { User } from "../user/User";
 
 class UsersStorage {
   private data: UserData[];
@@ -30,7 +29,7 @@ class UsersStorage {
 
   updateUser(updatedUser: UserData) {
     const updatedData = this.data.map(
-      user => user.id === updatedUser.id ? new User(updatedUser) : user
+      user => user.id === updatedUser.id ? updatedUser : user
     );
     this.data = updatedData;
   }

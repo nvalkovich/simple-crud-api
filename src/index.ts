@@ -1,21 +1,9 @@
-import "dotenv/config.js";
-import { createServer } from "http";
-import { returnErrorResponse } from "./utils/helpers/api";
-import { RepsonseMessages } from "./types/enums";
-import routesController from "./api/routes";
 
-const server = createServer((req, res) => {
-  try {
-    routesController(req, res);
-  } catch {
-    returnErrorResponse(res, 500, RepsonseMessages.ServerError);
-  }
-});
+import { AppServer } from "./app/AppServer";
 
-const PORT = process.env.PORT || 4000;
+const app = new AppServer();
+app.createServer();
 
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-})
+export default app;
 
-export default server;
+
